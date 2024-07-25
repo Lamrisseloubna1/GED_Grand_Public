@@ -14,7 +14,7 @@ import { blue, green, red, pink, orange, purple, yellow, brown } from '@mui/mate
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useRouter } from 'next/navigation'; // Import useRouter from next/navigation
+import { useRouter } from 'next/navigation'; 
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -59,18 +59,18 @@ interface ThemeCardProps {
 
 function ThemeCard({ title, description, avatarLetter, avatarColor }: ThemeCardProps) {
   const [expanded, setExpanded] = React.useState(false);
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter(); 
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   const handleCardClick = () => {
-    router.push('/BO'); // Redirect to the /BO page
+    router.push('/bulletin/BO'); 
   };
 
   return (
-    <ThematicCard onClick={handleCardClick}> {/* Add onClick handler */}
+    <ThematicCard onClick={handleCardClick}> 
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: avatarColor }}>

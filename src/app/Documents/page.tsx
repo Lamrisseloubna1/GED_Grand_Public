@@ -22,7 +22,7 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: 'bo', label: 'BO', minWidth: 100, align: 'right' },
+  { id: 'bo', label: 'Document', minWidth: 100, align: 'right' },
   {
     id: 'date',
     label: 'Date de Publication',

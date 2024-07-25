@@ -66,7 +66,7 @@ function ThemeCard({ title, description, avatarLetter, avatarColor, image }: The
     };
 
     const handleImageClick = () => {
-        router.push('/bulletin/BO');
+        router.push('/Documents');
     };
 
     return (

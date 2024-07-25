@@ -45,9 +45,8 @@ const menuGroups = [
             />
           </svg>
         ),
-        label: "Dashboard",
+        label: "Home",
         route: "#",
-        children: [{ label: "eCommerce", route: "/" }],
       },
       {
         icon: (
@@ -65,8 +64,8 @@ const menuGroups = [
             />
           </svg>
         ),
-        label: "Calendar",
-        route: "/calendar",
+        label: "Bulletin officiel",
+        route: "/bulletin",
       },
       {
         icon: (
@@ -158,7 +157,7 @@ const menuGroups = [
             </defs>
           </svg>
         ),
-        label: "Tables",
+        label: "Favoris",
         route: "/tables",
       },
       {
@@ -193,7 +192,7 @@ const menuGroups = [
             </defs>
           </svg>
         ),
-        label: "Settings",
+        label: "Annoations",
         route: "/settings",
       },
     ],

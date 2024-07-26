@@ -1,8 +1,7 @@
-// src/app/Documents/page.tsx
+// src/app/Favoris/page.tsx
 "use client";
 
 import * as React from 'react';
-import { useState } from 'react';
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -14,13 +13,11 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import IconButton from '@mui/material/IconButton';
 import GetAppIcon from '@mui/icons-material/GetApp';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'; // Import from 'next/navigation'
 
 interface Column {
-  id: 'title' | 'date' | 'view' | 'download' | 'favorite';
+  id: 'title' | 'date' | 'view' | 'download';
   label: string;
   minWidth?: number;
   align?: 'right' | 'center';
@@ -43,7 +40,6 @@ const columns: readonly Column[] = [
   },
   { id: 'view', label: 'Visualiser', minWidth: 170, align: 'center' },
   { id: 'download', label: 'Téléchargement', minWidth: 170, align: 'center' },
-  { id: 'favorite', label: 'Ajouter aux Favoris', minWidth: 170, align: 'center' },
 ];
 
 interface Data {
@@ -51,26 +47,20 @@ interface Data {
   date: Date;
   view: string;
   download: string;
-  favorite: boolean;
 }
 
-function createData(title: string, date: Date, view: string, download: string): Data {
-  return { title, date, view, download, favorite: false };
-}
-
-const rowsInitial = [
-  createData('Document 1', new Date('2023-01-01'), './static/documents/ged.pdf', './static/documents/ged.pdf'),
-  createData('Document 2', new Date('2023-02-15'), './static/documents/ged.pdf', './static/documents/ged.pdf'),
-  createData('Document 3', new Date('2023-03-10'), './static/documents/ged.pdf', './static/documents/ged.pdf'),
-  createData('Document 4', new Date('2023-04-22'), './static/documents/ged.pdf', './static/documents/ged.pdf'),
-  createData('Document 5', new Date('2023-05-30'), './static/documents/ged.pdf', './static/documents/ged.pdf'),
-];
-
-export default function DocumentTable() {
+const FavorisPage = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [rows, setRows] = useState(rowsInitial);
+  const [rows, setRows] = React.useState<Data[]>([]);
   const router = useRouter();
+
+  React.useEffect(() => {
+    const favorites = localStorage.getItem('favorites');
+    if (favorites) {
+      setRows(JSON.parse(favorites));
+    }
+  }, []);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -79,15 +69,6 @@ export default function DocumentTable() {
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
-  };
-
-  const handleFavoriteClick = (index: number) => {
-    const newRows = [...rows];
-    newRows[index].favorite = !newRows[index].favorite;
-    setRows([...newRows]);
-
-    const favorites = newRows.filter(row => row.favorite);
-    localStorage.setItem('favorites', JSON.stringify(favorites));
   };
 
   const handleDownload = (downloadUrl: string) => {
@@ -115,7 +96,7 @@ export default function DocumentTable() {
             <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
+                .map((row) => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={row.title}>
                       {columns.map((column) => {
@@ -129,10 +110,6 @@ export default function DocumentTable() {
                             ) : column.id === 'download' ? (
                               <IconButton aria-label="download" onClick={() => handleDownload(row.download)}>
                                 <GetAppIcon />
-                              </IconButton>
-                            ) : column.id === 'favorite' ? (
-                              <IconButton aria-label="favorite" onClick={() => handleFavoriteClick(index)}>
-                                {row.favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                               </IconButton>
                             ) : column.format && (typeof value === 'number' || value instanceof Date) ? (
                               column.format(value as number | Date)
@@ -157,8 +134,9 @@ export default function DocumentTable() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-        <button onClick={() => router.push('/favoris')}>View Favorites</button>
       </Paper>
     </DefaultLayout>
   );
-}
+};
+
+export default FavorisPage;

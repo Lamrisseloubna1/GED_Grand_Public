@@ -165,7 +165,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Favoris",
-        route: "/tables",
+        route: "/favoris",
       },
       {
         icon: (

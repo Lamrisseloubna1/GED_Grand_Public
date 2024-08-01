@@ -203,8 +203,9 @@ const menuGroups = [
           </svg>
         ),
         label: "Annotations",
-        route: "/settings",
+        route: "/annotations",
       },
+      
       
     ],
   },

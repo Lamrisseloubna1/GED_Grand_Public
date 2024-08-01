@@ -12,6 +12,7 @@ import SwitcherTwo from "@/components/Switchers/SwitcherTwo";
 import DatePickerTwo from "@/components/FormElements/DatePicker/DatePickerTwo";
 import DatePickerOne from "@/components/FormElements/DatePicker/DatePickerOne";
 import MultiSelect from "@/components/FormElements/MultiSelect";
+import MultiSelect1 from "@/components/FormElements/MultiSelect1";
 import SelectGroupTwo from "@/components/SelectGroup/SelectGroupTwo";
 
 const FormElements = () => {
@@ -185,6 +186,17 @@ const FormElements = () => {
           </div> */}
 
           {/* <!-- Select input --> */}
+          <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+            <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
+              <h3 className="font-medium text-black dark:text-white">
+                Par type de document
+              </h3>
+            </div>
+            <div className="flex flex-col gap-5.5 p-6.5">
+            
+              <MultiSelect1 id="multiSelect1" />
+            </div>
+          </div>
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">

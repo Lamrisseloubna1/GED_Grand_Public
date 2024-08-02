@@ -17,10 +17,11 @@ import GetAppIcon from '@mui/icons-material/GetApp';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import ShareIcon from '@mui/icons-material/Share';
 import { useRouter } from 'next/navigation';
 
 interface Column {
-  id: 'title' | 'date' | 'view' | 'download' | 'favorite';
+  id: 'title' | 'date' | 'view' | 'download' | 'favorite' | 'share';
   label: string;
   minWidth?: number;
   align?: 'right' | 'center';
@@ -44,6 +45,7 @@ const columns: readonly Column[] = [
   { id: 'view', label: 'Visualiser', minWidth: 170, align: 'center' },
   { id: 'download', label: 'Téléchargement', minWidth: 170, align: 'center' },
   { id: 'favorite', label: 'Ajouter aux Favoris', minWidth: 170, align: 'center' },
+  { id: 'share', label: 'Partager', minWidth: 170, align: 'center' },
 ];
 
 interface Data {
@@ -94,6 +96,22 @@ export default function DocumentTable() {
     window.open(downloadUrl, '_blank');
   };
 
+  const handleShareClick = (url: string) => {
+    const shareData = {
+      title: 'Document',
+      text: 'Check out this document:',
+      url: url,
+    };
+    
+    if (navigator.share) {
+      navigator.share(shareData).catch(console.error);
+    } else {
+      // Fallback for browsers that do not support the Web Share API
+      const shareUrl = `mailto:?subject=${encodeURIComponent('Document')}&body=${encodeURIComponent(`Check out this document: ${url}`)}`;
+      window.open(shareUrl, '_blank');
+    }
+  };
+
   return (
     <DefaultLayout>
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -133,6 +151,10 @@ export default function DocumentTable() {
                             ) : column.id === 'favorite' ? (
                               <IconButton aria-label="favorite" onClick={() => handleFavoriteClick(index)}>
                                 {row.favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                              </IconButton>
+                            ) : column.id === 'share' ? (
+                              <IconButton aria-label="share" onClick={() => handleShareClick(row.download)}>
+                                <ShareIcon />
                               </IconButton>
                             ) : column.format && (typeof value === 'number' || value instanceof Date) ? (
                               column.format(value as number | Date)

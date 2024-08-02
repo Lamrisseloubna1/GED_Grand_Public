@@ -165,7 +165,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Favoris",
-        route: "/tables",
+        route: "/favoris",
       },
       {
         icon: (
@@ -203,8 +203,9 @@ const menuGroups = [
           </svg>
         ),
         label: "Annotations",
-        route: "/settings",
+        route: "/annotations",
       },
+      
       
     ],
   },

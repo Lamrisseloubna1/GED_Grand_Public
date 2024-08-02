@@ -11,7 +11,7 @@ interface DropdownProps {
   id: string;
 }
 
-const MultiSelect: React.FC<DropdownProps> = ({ id }) => {
+const Tri: React.FC<DropdownProps> = ({ id }) => {
   const [options, setOptions] = useState<Option[]>([]);
   const [selected, setSelected] = useState<number[]>([]);
   const [show, setShow] = useState(false);
@@ -96,19 +96,15 @@ const MultiSelect: React.FC<DropdownProps> = ({ id }) => {
   return (
     <div className="relative z-50">
       <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-      Thèmes
+      Trier par:
       </label>
       <div>
         <select className="hidden" id={id}>
-          <option value="1">Politique</option>
-          <option value="2">Economie & Finances</option>
-          <option value="3">Santé</option>
-          <option value="4">Justice et Droit</option>
-          <option value="5">Travail et Emploi</option>
-          <option value="6">Habitat et Urbanisme</option>
-          <option value="7">Agriculture et Pêche</option>
-          <option value="8">Environnement et Développement Durable</option>
-
+          <option value="1">pertinence</option>
+          <option value="2">Titre(A-Z)</option>
+          <option value="3">Titre(Z-A)</option>
+          <option value="4">Année(plus récente)</option>
+          <option value="5">Année(moins récente)</option>
         </select>
 
         <div className="flex flex-col items-center">
@@ -228,4 +224,4 @@ const MultiSelect: React.FC<DropdownProps> = ({ id }) => {
   );
 };
 
-export default MultiSelect;
+export default Tri;

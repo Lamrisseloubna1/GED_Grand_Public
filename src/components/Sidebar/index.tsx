@@ -146,7 +146,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Recherche avancée",
-        route: "/forms/form-elements",
+        route: "/forms",
       },      
       {
         icon: (

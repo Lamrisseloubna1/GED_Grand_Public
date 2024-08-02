@@ -127,9 +127,11 @@ export default function DocumentTable() {
                                 <VisibilityIcon />
                               </IconButton>
                             ) : column.id === 'download' ? (
-                              <IconButton aria-label="download" onClick={() => handleDownload(row.download)}>
+                              <a href={value as string} download onClick={(e) => e.stopPropagation()}>
+                              <IconButton aria-label="download">
                                 <GetAppIcon />
                               </IconButton>
+                            </a>
                             ) : column.id === 'favorite' ? (
                               <IconButton aria-label="favorite" onClick={() => handleFavoriteClick(index)}>
                                 {row.favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}

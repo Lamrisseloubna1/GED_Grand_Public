@@ -13,14 +13,12 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import IconButton from '@mui/material/IconButton';
 import GetAppIcon from '@mui/icons-material/GetApp';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 interface Column {
-  id: 'bo' | 'date' | 'view' | 'download' | 'favorite';
+  id: 'bo' | 'date' | 'view' | 'download';
   label: string;
   minWidth?: number;
   align?: 'right' | 'center';
@@ -42,23 +40,21 @@ const columns: readonly Column[] = [
     },
   },
   { id: 'view', label: 'Visualiser', minWidth: 170, align: 'center' },
-  { id: 'download', label: 'Téléchargement', minWidth: 170, align: 'center' },
-  { id: 'favorite', label: 'Ajouter aux Favoris', minWidth: 170, align: 'center' },];
+  { id: 'download', label: 'Téléchargement', minWidth: 170, align: 'center' },];
 
 interface Data {
   bo: number;
   date: Date;
   view: string;
   download: string;
-  favorite: boolean;
 }
 
 function createData(bo: number, date: Date,  view: string, download: string): Data {
-  return { bo, date, view, download, favorite: false};
+  return { bo, date, view, download};
 }
 
 const rowsInitial = [
-  createData(12345, new Date('2023-01-01'), './static/documents/doc.pdf','download_link_1'),
+  createData(12345, new Date('2023-01-01'), './static/documents/doc.pdf','./static/documents/doc.pdf'),
   // Add more rows as needed
   /* createData(67890, new Date('2023-02-15'), '/path/to/document2.pdf'),
   createData(11121, new Date('2023-03-10'), '/path/to/document3.pdf'),
@@ -83,12 +79,6 @@ export default function StickyHeadTable() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState(rowsInitial);
-  const handleFavoriteClick = (index: number) => {
-    const newRows = [...rows];
-    newRows[index].favorite = !newRows[index].favorite;
-    setRows([...newRows]);
-  };
-
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -98,6 +88,8 @@ export default function StickyHeadTable() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+
 
   return (
     <DefaultLayout>
@@ -144,10 +136,6 @@ export default function StickyHeadTable() {
                                   <GetAppIcon />
                                 </IconButton>
                               </a>
-                              ) : column.id === 'favorite' ? (
-                                <IconButton aria-label="favorite" onClick={() => handleFavoriteClick(index)}>
-                                  {row.favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                                </IconButton>
                             ) : column.format && typeof value === 'number' || value instanceof Date ? (
                               column.format(value as number | Date)
                             ) : (

@@ -124,7 +124,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Documents",
-        route: "#",
+        route: "/Documents",
         children: [
           { label: "par thématique", route: "/theme" },
         ],

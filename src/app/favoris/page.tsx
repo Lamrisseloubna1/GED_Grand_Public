@@ -1,4 +1,3 @@
-// src/app/Favoris/page.tsx
 "use client";
 
 import * as React from 'react';
@@ -32,10 +31,8 @@ const columns: readonly Column[] = [
     minWidth: 170,
     align: 'right',
     format: (value: Date | number) => {
-      if (value instanceof Date) {
-        return value.toLocaleDateString('en-US');
-      }
-      return value.toString();
+      const date = new Date(value);
+      return date.toISOString().split('T')[0]; // Format the date as YYYY-MM-DD
     },
   },
   { id: 'view', label: 'Visualiser', minWidth: 170, align: 'center' },
@@ -71,10 +68,6 @@ const FavorisPage = () => {
     setPage(0);
   };
 
-  const handleDownload = (downloadUrl: string) => {
-    window.open(downloadUrl, '_blank');
-  };
-
   return (
     <DefaultLayout>
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -108,11 +101,13 @@ const FavorisPage = () => {
                                 <VisibilityIcon />
                               </IconButton>
                             ) : column.id === 'download' ? (
-                              <IconButton aria-label="download" onClick={() => handleDownload(row.download)}>
-                                <GetAppIcon />
-                              </IconButton>
-                            ) : column.format && (typeof value === 'number' || value instanceof Date) ? (
-                              column.format(value as number | Date)
+                              <a href={value as string} download onClick={(e) => e.stopPropagation()}>
+                                <IconButton aria-label="download">
+                                  <GetAppIcon />
+                                </IconButton>
+                              </a>
+                            ) : column.id === 'date' ? (
+                              columns.find(col => col.id === 'date')!.format!(value as Date | number)
                             ) : (
                               value
                             )}

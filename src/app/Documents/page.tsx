@@ -19,6 +19,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ShareIcon from '@mui/icons-material/Share';
 import { useRouter } from 'next/navigation';
+import Button from '@mui/material/Button';
 
 interface Column {
   id: 'title' | 'date' | 'view' | 'download' | 'favorite' | 'share';
@@ -181,8 +182,17 @@ export default function DocumentTable() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-        <button onClick={() => router.push('/favoris')}>View Favorites</button>
       </Paper>
+      <div style={{ display: 'flex', justifyContent: 'right', marginTop: '20px' }}>
+        <Button
+          variant="contained"
+          color="primary"
+          style={{ backgroundColor: 'blue', color: 'white' }}
+          onClick={() => router.push('/favoris')}
+        >
+          View Favorites
+        </Button>
+      </div>
     </DefaultLayout>
   );
 }

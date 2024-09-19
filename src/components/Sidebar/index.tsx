@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
+
+import { usePathname,useRouter } from "next/navigation";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -258,8 +259,12 @@ const menuGroups = [
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const pathname = usePathname();
+  const router = useRouter();
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
-
+  const handleLogout = () => {
+    sessionStorage.removeItem('user');
+    router.replace('/auth/signin'); // Redirect to sign-in page
+  };
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
       <aside
@@ -331,6 +336,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             ))}
           </nav>
           {/* <!-- Sidebar Menu --> */}
+        </div>
+        <div className="absolute bottom-0 w-full px-4 py-8">
+          <button
+            onClick={handleLogout}
+            className="w-full font-semibold text-white bg-red-500 rounded hover:bg-red-600"
+          >
+            Logout
+          </button>
         </div>
       </aside>
     </ClickOutside>

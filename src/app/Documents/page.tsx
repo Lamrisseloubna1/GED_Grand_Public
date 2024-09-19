@@ -2,7 +2,7 @@
 "use client";
 
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -20,6 +20,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import ShareIcon from '@mui/icons-material/Share';
 import { useRouter } from 'next/navigation';
 import Button from '@mui/material/Button';
+import { getAllDocuments } from '@/services/documentService'; // Adjust path as necessary
 
 interface Column {
   id: 'title' | 'date' | 'view' | 'download' | 'favorite' | 'share';
@@ -61,19 +62,23 @@ function createData(title: string, date: Date, view: string, download: string): 
   return { title, date, view, download, favorite: false };
 }
 
-const rowsInitial = [
-  createData('Document 1', new Date('2023-01-01'), './static/documents/ged.pdf', './static/documents/ged.pdf'),
-  createData('Document 2', new Date('2023-02-15'), './static/documents/ged.pdf', './static/documents/ged.pdf'),
-  createData('Document 3', new Date('2023-03-10'), './static/documents/ged.pdf', './static/documents/ged.pdf'),
-  createData('Document 4', new Date('2023-04-22'), './static/documents/ged.pdf', './static/documents/ged.pdf'),
-  createData('Document 5', new Date('2023-05-30'), './static/documents/ged.pdf', './static/documents/ged.pdf'),
-];
-
 export default function DocumentTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [rows, setRows] = useState(rowsInitial);
+  const [rows, setRows] = useState<Data[]>([]);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      const documents = await getAllDocuments();
+      const formattedDocuments = documents.map((doc: any) =>
+        createData(doc.titre, new Date(doc['dateDepot']), doc.file, doc.file)
+      );
+      setRows(formattedDocuments);
+    };
+
+    fetchDocuments();
+  }, []);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -147,10 +152,10 @@ export default function DocumentTable() {
                               </IconButton>
                             ) : column.id === 'download' ? (
                               <a href={value as string} download onClick={(e) => e.stopPropagation()}>
-                              <IconButton aria-label="download">
-                                <GetAppIcon />
-                              </IconButton>
-                            </a>
+                                <IconButton aria-label="download">
+                                  <GetAppIcon />
+                                </IconButton>
+                              </a>
                             ) : column.id === 'favorite' ? (
                               <IconButton aria-label="favorite" onClick={() => handleFavoriteClick(index)}>
                                 {row.favorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
